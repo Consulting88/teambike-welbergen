@@ -1,0 +1,19 @@
+name: import-site
+on:
+  push:
+    paths:
+      - '.github/workflows/import.yml'
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          curl -fsSL https://cute-buttercream-0d3ccb.netlify.app/ -o index.html
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add index.html
+          git commit -m "Import TeamBike site" || true
+          git push
